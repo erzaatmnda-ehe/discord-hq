@@ -31,4 +31,8 @@ jobs:
         run: git merge --no-edit upstream/main || { echo "Merge conflict detected"; exit 1; }
 
       - name: Push merge
-        run: git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git push origin HEAD:main
